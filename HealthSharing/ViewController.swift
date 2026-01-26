@@ -51,7 +51,8 @@ struct Challenge {
 }
 
 class ViewController: UIViewController {
-    
+    private let gradientLayer = CAGradientLayer()
+    var challengeContainer: UIView!
     let scrollView = UIScrollView()
     let contentView = UIView()
     let calendarStackView = UIStackView()
@@ -80,9 +81,15 @@ class ViewController: UIViewController {
         setupVitalsPopup()
     }
     
-    func setupGradientBackground() {
-        let gradientLayer = CAGradientLayer()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         gradientLayer.frame = view.bounds
+    }
+
+    func setupGradientBackground() {
+        gradientLayer.frame = view.bounds
+        view.layer.insertSublayer(gradientLayer, at: 0)
+
         gradientLayer.colors = [
             UIColor(red: 0.93, green: 0.95, blue: 0.99, alpha: 1.0).cgColor,
             UIColor(red: 0.97, green: 0.98, blue: 1.0, alpha: 1.0).cgColor
@@ -103,7 +110,8 @@ class ViewController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -80), // Space for tab bar
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
             
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -112,6 +120,11 @@ class ViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
+    @objc func openCareBot() {
+        let vc = CareBotViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     func setupNavigationBar() {
 
         // Enable large title
@@ -417,7 +430,7 @@ class ViewController: UIViewController {
         contentView.addSubview(titleLabel)
 
         // ---- GLASS CONTAINER ----
-        let challengeContainer = UIView()
+        challengeContainer = UIView()
         challengeContainer.backgroundColor = UIColor(white: 1.0, alpha: 0.5)
         challengeContainer.layer.cornerRadius = 20
         challengeContainer.layer.borderWidth = 1
@@ -464,7 +477,6 @@ class ViewController: UIViewController {
             challengeContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             challengeContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             challengeContainer.heightAnchor.constraint(equalToConstant: 160),
-            challengeContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24),
 
             challengeNameLabel.topAnchor.constraint(equalTo: challengeContainer.topAnchor, constant: 20),
             challengeNameLabel.leadingAnchor.constraint(equalTo: challengeContainer.leadingAnchor, constant: 20),
@@ -483,11 +495,14 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             progressView.setProgress(Float(self.currentChallenge.progress), animated: true)
         }
+        setupCareBotSection(below: challengeContainer)
+
+
     }
 
     
     func createParticipantIcon(for member: FamilyMember, zIndex: Int) -> UIView {
-        let iconSize: CGFloat = 50
+        let iconSize: CGFloat = 40
         let profileBlue = UIColor(red: 0.2, green: 0.3, blue: 0.5, alpha: 1.0)
 
         let containerView = UIView()
@@ -499,7 +514,7 @@ class ViewController: UIViewController {
         let iconView = UIView()
         iconView.backgroundColor = UIColor(white: 1.0, alpha: 0.95)
         iconView.layer.cornerRadius = iconSize / 2
-        iconView.layer.borderWidth = 3
+        iconView.layer.borderWidth = 2
         
         // Color based on member's ring color
         iconView.layer.borderColor = profileBlue.cgColor
@@ -512,7 +527,7 @@ class ViewController: UIViewController {
         containerView.addSubview(iconView)
         
         // User icon
-        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .medium)
+        let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
         let userIcon = UIImageView(image: UIImage(systemName: "person.fill", withConfiguration: config))
         userIcon.tintColor = profileBlue
         userIcon.contentMode = .center
@@ -531,7 +546,131 @@ class ViewController: UIViewController {
         print("Selected tab: \(index)")
         // You can add navigation logic here later
     }
+    func setupCareBotSection(below anchorView: UIView) {
+
+        let softGrey = UIColor(red: 0.95, green: 0.96, blue: 0.98, alpha: 1.0)
+
+        // ---- TITLE ----
+        let titleLabel = UILabel()
+        titleLabel.text = "CareBot"
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        titleLabel.textColor = UIColor(red: 0.2, green: 0.3, blue: 0.5, alpha: 1.0)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+
+        // ---- SINGLE WHITE CARD (NO LIQUID GLASS) ----
+        let container = UIView()
+        container.backgroundColor = .white       // changed from UIVisualEffectView to plain white UIView
+        container.layer.cornerRadius = 24
+        container.clipsToBounds = true
+        container.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(container)
+
+        // ---- SUGGESTED QUESTIONS ----
+        let message1 = createMessageBubble(
+            text: "Does walking daily improve health?",
+            background: softGrey
+        )
+
+        let message2 = createMessageBubble(
+            text: "How can I improve my sleep quality?",
+            background: softGrey
+        )
+
+        let stack = UIStackView(arrangedSubviews: [message1, message2])
+        stack.axis = .vertical
+        stack.spacing = 10
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(stack)  // note: container is now UIView, so contentView removed
+
+        // ---- INPUT FIELD ----
+        let inputField = UITextField()
+        inputField.placeholder = "Ask CareBot..."
+        inputField.backgroundColor = softGrey
+        inputField.textColor = .black
+        inputField.font = UIFont.systemFont(ofSize: 15)
+        inputField.layer.cornerRadius = 16
+        inputField.borderStyle = .none
+        inputField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 1))
+        inputField.leftViewMode = .always
+        inputField.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(inputField)
+
+        let sendButton = UIButton(type: .system)
+        sendButton.setImage(UIImage(systemName: "paperplane.fill"), for: .normal)
+        sendButton.tintColor = .black
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.addTarget(self, action: #selector(openCareBot), for: .touchUpInside)
+        container.addSubview(sendButton)
+
+        // ---- STAR BUTTON ----
+        let starButton = UIButton(type: .system)
+        starButton.setImage(UIImage(systemName: "sparkles"), for: .normal)
+        starButton.tintColor = .black
+        starButton.backgroundColor = .white
+        starButton.layer.cornerRadius = 22
+        starButton.translatesAutoresizingMaskIntoConstraints = false
+        starButton.addTarget(self, action: #selector(openCareBot), for: .touchUpInside)
+        container.addSubview(starButton)
+
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: anchorView.bottomAnchor, constant: 24),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+
+            container.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            container.heightAnchor.constraint(equalToConstant: 240),
+            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40),
+
+            stack.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
+            stack.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor, constant: -70),
+
+            inputField.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
+            inputField.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
+            inputField.heightAnchor.constraint(equalToConstant: 36),
+
+            sendButton.leadingAnchor.constraint(equalTo: inputField.trailingAnchor, constant: 10),
+            sendButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
+            sendButton.centerYAnchor.constraint(equalTo: inputField.centerYAnchor),
+            sendButton.widthAnchor.constraint(equalToConstant: 28),
+
+            starButton.topAnchor.constraint(equalTo: container.topAnchor, constant: 14),
+            starButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -14),
+            starButton.widthAnchor.constraint(equalToConstant: 44),
+            starButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+    }
+
     
+    func createMessageBubble(text: String, background: UIColor) -> UIView {
+
+        let label = UILabel()
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textColor = .black
+        label.numberOfLines = 0
+
+        let bubble = UIView()
+        bubble.backgroundColor = background
+        bubble.layer.cornerRadius = 16
+        bubble.translatesAutoresizingMaskIntoConstraints = false
+        bubble.addSubview(label)
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: bubble.topAnchor, constant: 10),
+            label.leadingAnchor.constraint(equalTo: bubble.leadingAnchor, constant: 14),
+            label.trailingAnchor.constraint(equalTo: bubble.trailingAnchor, constant: -14),
+            label.bottomAnchor.constraint(equalTo: bubble.bottomAnchor, constant: -10),
+            bubble.widthAnchor.constraint(lessThanOrEqualToConstant: 260)
+        ])
+
+        return bubble
+    }
+
+
     // MARK: - Vitals Popup
     func setupVitalsPopup() {
         vitalsPopup.alpha = 0
@@ -568,6 +707,7 @@ class ViewController: UIViewController {
             self.vitalsPopup.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         }
     }
+
     
     @objc func dateTapped(_ sender: UITapGestureRecognizer) {
         guard let tappedView = sender.view else { return }
