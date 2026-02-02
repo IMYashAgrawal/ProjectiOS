@@ -1,4 +1,7 @@
-struct Profile {
+import Foundation
+import UIKit
+
+struct Profile: Codable {
     let profileId: Int
     var firstName: String
     var lastName: String
@@ -23,16 +26,16 @@ struct Profile {
     var version: Int
 }
 
-enum Gender: String {
+enum Gender: String, Codable {
     case male, female, others
 }
 
-struct FamilyMembers {
+struct FamilyMembers: Codable {
     var member: Profile
     var nickName: String?
 }
 
-struct Family {
+struct Family: Codable {
     let familyId: Int
     var familyName: String
     var sharableCode: String
@@ -43,7 +46,17 @@ struct Family {
     var version: Int
 }
 
-struct ChallengeCompleted {
+struct AppModel: Codable {
+    let family: Family
+    let familyMembers: [FamilyMembers]
+    
+    enum CodingKeys: String, CodingKey {
+        case family
+        case familyMembers
+    }
+}
+
+struct ChallengeCompleted: Codable {
     var challenges: Challenge
     var percentageCompleted: Double
     var memberProgress: [Int: Double]
@@ -53,18 +66,18 @@ struct ChallengeCompleted {
     var version: Int
 }
 
-struct Challenge {
+struct Challenge: Codable {
     let challengeId: Int
     let challengeName: String
     let challengeType: ChallengeType
     let challengeDescription: String
 }
 
-enum ChallengeType: String {
+enum ChallengeType: String, Codable {
     case physical, emotional
 }
 
-struct Message {
+struct Message: Codable {
     let messageId: Int
     let senderId: Int
     let receiverId: Int
@@ -79,7 +92,7 @@ struct Message {
     var version: Int
 }
 
-struct VitalsHourly {
+struct VitalsHourly: Codable {
     let vitalHourlyId: Int
     let vitalType: VitalType
     var minValue: Int
@@ -94,7 +107,7 @@ struct VitalsHourly {
     var version: Int
 }
 
-struct VitalsDaily {
+struct VitalsDaily: Codable {
     let vitalDailyId: Int
     let vitalType: VitalType
     var minValue: Int
@@ -107,11 +120,11 @@ struct VitalsDaily {
     var version: Int
 }
 
-enum VitalType: String {
+enum VitalType: String, Codable {
     case heartRate, hrv, spo2, respiratoryRate
 }
 
-struct Sleep {
+struct Sleep: Codable {
     let sleepId: Int
     let sleepStartUTC: Date
     let sleepEndUTC: Date
@@ -126,7 +139,7 @@ struct Sleep {
     var version: Int
 }
 
-struct ActivityHourly {
+struct ActivityHourly: Codable {
     let activityHourlyId: Int
     let activityType: ActivityType
     var value: Int
@@ -139,7 +152,7 @@ struct ActivityHourly {
     var version: Int
 }
 
-struct ActivityDaily {
+struct ActivityDaily: Codable {
     let activityDailyId: Int
     let activityType: ActivityType
     var value: Int
@@ -151,10 +164,11 @@ struct ActivityDaily {
     var version: Int
 }
 
-enum ActivityType: String {
+enum ActivityType: String, Codable {
     case stepCount, caloriesBurned, distanceCovered
 }
 
-enum ActivityUnit: String {
+enum ActivityUnit: String, Codable {
     case step, kcal, meters
 }
+
