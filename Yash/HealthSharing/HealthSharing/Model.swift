@@ -5,6 +5,7 @@ struct Profile: Codable {
     let profileId: Int
     var firstName: String
     var lastName: String
+    var nickName: String?
     var email: String
     let gender: Gender
     let dob: Date
@@ -23,16 +24,10 @@ struct Profile: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 enum Gender: String, Codable {
     case male, female, others
-}
-
-struct FamilyMembers: Codable {
-    var member: Profile
-    var nickName: String?
 }
 
 struct Family: Codable {
@@ -43,17 +38,6 @@ struct Family: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
-}
-
-struct AppModel: Codable {
-    let family: Family
-    let familyMembers: [FamilyMembers]
-    
-    enum CodingKeys: String, CodingKey {
-        case family
-        case familyMembers
-    }
 }
 
 struct ChallengeCompleted: Codable {
@@ -63,7 +47,6 @@ struct ChallengeCompleted: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 struct Challenge: Codable {
@@ -89,7 +72,6 @@ struct Message: Codable {
 
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 struct VitalsHourly: Codable {
@@ -104,7 +86,6 @@ struct VitalsHourly: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 struct VitalsDaily: Codable {
@@ -117,7 +98,6 @@ struct VitalsDaily: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 enum VitalType: String, Codable {
@@ -136,7 +116,6 @@ struct Sleep: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 struct ActivityHourly: Codable {
@@ -149,7 +128,6 @@ struct ActivityHourly: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 struct ActivityDaily: Codable {
@@ -161,14 +139,12 @@ struct ActivityDaily: Codable {
     
     var lastUpdatedAt: Date
     var isSynced: Bool
-    var version: Int
 }
 
 enum ActivityType: String, Codable {
-    case stepCount, caloriesBurned, distanceCovered
+    case stepCount, caloriesBurned, distanceCovered, wellnessScore
 }
 
 enum ActivityUnit: String, Codable {
-    case step, kcal, meters
+    case step, kcal, meters, outof100
 }
-
