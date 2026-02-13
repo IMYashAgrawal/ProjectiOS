@@ -12,13 +12,52 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        
+        guard let windowScene = scene as? UIWindowScene else { return }
+        
+        window = UIWindow(windowScene: windowScene)
+        
+        // Load JSON data
+        DataManager.shared.loadAppData()
+        
+        // Instantiate Tab Bar Controller
+        guard let tabBarController = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateInitialViewController() as? UITabBarController else {
+            return
+        }
+        
+        // Inject data into HomeViewController
+        if let homeNavController = tabBarController.viewControllers?[0] as? UINavigationController,
+           let homeVC = homeNavController.viewControllers.first as? HomeViewController {
+            
+            let dm = DataManager.shared
+            homeVC.currentUser = dm.currentUser
+            homeVC.family = dm.family
+            homeVC.otherProfiles = dm.allProfiles
+            homeVC.messages = dm.messages
+            
+        }
+        
+        if let challengeNavController = tabBarController.viewControllers?[2] as? UINavigationController {
+           
+            if let challengeVC = challengeNavController.viewControllers.first as? ChallengeFirstViewController {
+            challengeVC.challenges = DataManager.shared.family?.challenge
+            challengeVC.familyMembers = DataManager.shared.allProfiles
+                print("data transfered from scene delegate to challenge storyboard")
+            } else {
+                print("data didnt transfer from scene delegate to challenge storyboard")
+            }
+            
+        }
+        
+        
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
