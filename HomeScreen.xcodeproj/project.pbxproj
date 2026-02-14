@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		686744822F3EDE0A009CEC31 /* Challenges.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 686744812F3EDE0A009CEC31 /* Challenges.storyboard */; };
 		686744D42F3F4C4C009CEC31 /* Insights.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 686744D32F3F4C4C009CEC31 /* Insights.storyboard */; };
 		686744D62F3F4DF8009CEC31 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 686744D52F3F4DF8009CEC31 /* Profile.storyboard */; };
 		686744DA2F3F70B4009CEC31 /* Messages.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 686744D92F3F70B4009CEC31 /* Messages.storyboard */; };
@@ -50,6 +49,7 @@
 		D679ADC22F3B104D00343399 /* DetailInsightContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D679ADC12F3B104D00343399 /* DetailInsightContentCell.xib */; };
 		D679ADC32F3B104D00343399 /* DetailInsightContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D679ADC02F3B104D00343399 /* DetailInsightContentCell.swift */; };
 		D679ADC52F3B110200343399 /*  InsightType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D679ADC42F3B10FF00343399 /*  InsightType.swift */; };
+		D691CB442F402D2F0031C421 /* Challenges.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D691CB432F402D2F0031C421 /* Challenges.storyboard */; };
 		D6F182762F39B5AB00270758 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6F182542F39B5AB00270758 /* Assets.xcassets */; };
 		D6F182772F39B5AB00270758 /* CalendarCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6F182562F39B5AB00270758 /* CalendarCollectionViewCell.xib */; };
 		D6F182782F39B5AB00270758 /* ChallengesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6F182582F39B5AB00270758 /* ChallengesCollectionViewCell.xib */; };
@@ -83,7 +83,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		686744812F3EDE0A009CEC31 /* Challenges.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Challenges.storyboard; path = /Users/mohdkushaad/Challenges.storyboard; sourceTree = "<absolute>"; };
 		686744D32F3F4C4C009CEC31 /* Insights.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Insights.storyboard; sourceTree = "<group>"; };
 		686744D52F3F4DF8009CEC31 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		686744D92F3F70B4009CEC31 /* Messages.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Messages.storyboard; sourceTree = "<group>"; };
@@ -126,6 +125,7 @@
 		D679ADC02F3B104D00343399 /* DetailInsightContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInsightContentCell.swift; sourceTree = "<group>"; };
 		D679ADC12F3B104D00343399 /* DetailInsightContentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailInsightContentCell.xib; sourceTree = "<group>"; };
 		D679ADC42F3B10FF00343399 /*  InsightType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " InsightType.swift"; sourceTree = "<group>"; };
+		D691CB432F402D2F0031C421 /* Challenges.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Challenges.storyboard; sourceTree = "<group>"; };
 		D6F182532F39B5AB00270758 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D6F182542F39B5AB00270758 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D6F182552F39B5AB00270758 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 		686744802F3EDDE4009CEC31 /* Challenges */ = {
 			isa = PBXGroup;
 			children = (
-				686744812F3EDE0A009CEC31 /* Challenges.storyboard */,
+				D691CB432F402D2F0031C421 /* Challenges.storyboard */,
 				689E1CE12F3C41E000F1DA8C /* Cell Design */,
 				689E1CE52F3C41E000F1DA8C /* Cell Files */,
 				689E1CE92F3C41E000F1DA8C /* VCs */,
@@ -554,7 +554,6 @@
 				686744DA2F3F70B4009CEC31 /* Messages.storyboard in Resources */,
 				BB8CD79F2F3D8CF600513144 /* GraphCollectionViewCell.xib in Resources */,
 				D6F182762F39B5AB00270758 /* Assets.xcassets in Resources */,
-				686744822F3EDE0A009CEC31 /* Challenges.storyboard in Resources */,
 				D6F182772F39B5AB00270758 /* CalendarCollectionViewCell.xib in Resources */,
 				BB8CD7D42F3D8FDC00513144 /* mock_data.json in Resources */,
 				D679ADC22F3B104D00343399 /* DetailInsightContentCell.xib in Resources */,
@@ -574,6 +573,7 @@
 				D6F182822F39B5AB00270758 /* WellnessCardCell.xib in Resources */,
 				D679ADBE2F3B0D8600343399 /* DetailInsightHeaderCell.xib in Resources */,
 				D6F182832F39B5AB00270758 /* WellnessChartCell.xib in Resources */,
+				D691CB442F402D2F0031C421 /* Challenges.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
