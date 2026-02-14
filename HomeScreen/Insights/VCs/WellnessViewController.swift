@@ -171,7 +171,6 @@ extension WellnessViewController: UICollectionViewDelegateFlowLayout {
             }
         }
 
-        // ✅ Chart full width (same as header)
         if isContent {
             return CGSize(width: width - 32, height: 300)
         }

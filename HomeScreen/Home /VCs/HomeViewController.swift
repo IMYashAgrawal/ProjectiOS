@@ -7,32 +7,30 @@
 //SceneDelegate injects data into HomeViewController
 //      ↓
 //HomeViewController uses data
-
 import UIKit
 import DGCharts
 
 class HomeViewController: UIViewController {
 
-    //
+    private var selectedMember: Profile?
     var currentUser: Profile?
     var family: Family?
     var otherProfiles: [Profile] = []
     var messages: [Message] = []
 
-    // MARK: - UI
+    //home collection view
     @IBOutlet weak var homeCollectionView: UICollectionView!
 
-    // MARK: - Calendar
+    //calendar variables
     private var dates: [Date] = []
     private var selectedDate = Date()
     private let calendar = Calendar.current
     private var didScrollToToday = false
 
-    // MARK: - Derived Data
+    //dervied variables
     private var wellnessCards: [WellnessCard] = []
     private var familyMembers: [Profile] = []
 
-    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProfileButton()
@@ -89,19 +87,6 @@ class HomeViewController: UIViewController {
     performSegue(withIdentifier: "home_to_profile_", sender: self)
     }
   
-
-    
-    // MARK: - Open Member Wellness
-    func openMemberWellness(profile: Profile) {
-        guard let vc = storyboard?.instantiateViewController(
-            withIdentifier: "MemberWellnessVC"
-        ) as? MemberWellnessViewController else { return }
-
-        vc.profile = profile
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .pageSheet
-        present(nav, animated: true)
-    }
 
     // MARK: - Data Builders
     private func buildFamilyMembers() {
@@ -298,7 +283,7 @@ extension HomeViewController: UICollectionViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "home_to_profile_" {
             
-            //            // destination is a nav controller, top is ProfileMainTableViewController
+            // destination is a nav controller, top is ProfileMainTableViewController
             if let navVC = segue.destination as? UINavigationController,
                let destinationVC = navVC.topViewController as? ProfileMainTableViewController {
                 destinationVC.currentUser = currentUser
@@ -306,6 +291,14 @@ extension HomeViewController: UICollectionViewDataSource {
                 destinationVC.familyMembers = familyMembers
                 print("number of memebers inside home vc: \(familyMembers.count)")
                 print("home vc to profilevc thru nav")
+            }
+        }
+        if segue.identifier == "home_to_member_wellness" {
+            if let nav = segue.destination as? UINavigationController,
+               let destination = nav.topViewController as? MemberWellnessViewController,
+               let profile = sender as? Profile {
+
+                destination.profile = profile
             }
         }
     }
@@ -375,7 +368,10 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController: FamilyMemberTapDelegate {
     func didTapMember(_ profile: Profile) {
         guard profile.profileId != currentUser?.profileId else { return }
-        openMemberWellness(profile: profile)
+
+        performSegue(withIdentifier: "home_to_member_wellness", sender: profile)
     }
+
+
 }
 

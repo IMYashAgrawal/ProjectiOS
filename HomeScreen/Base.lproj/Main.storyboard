@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wlc-KK-rkx">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wlc-KK-rkx">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -57,6 +57,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="homeCollectionView" destination="AD2-vs-OOw" id="hzq-cN-aGq"/>
+                        <segue destination="ygf-jW-0CY" kind="presentation" identifier="home_to_member_wellness" modalPresentationStyle="pageSheet" id="dCP-dg-ugz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -68,11 +69,11 @@
             <objects>
                 <viewController storyboardIdentifier="MemberWellnessVC" id="PID-XP-1tP" customClass="MemberWellnessViewController" customModule="HomeScreen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fiK-Uw-DhZ">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TSx-Dg-pWC">
-                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
+                                <rect key="frame" x="0.0" y="70" width="393" height="723"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mFT-P0-mJp">
                                     <size key="itemSize" width="128" height="128"/>
@@ -101,13 +102,20 @@
                             <constraint firstItem="TSx-Dg-pWC" firstAttribute="top" secondItem="1Qf-Xb-dkC" secondAttribute="top" id="nJj-IN-e1F"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="ARp-bt-0if">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Hfi-iy-sfV">
+                            <connections>
+                                <action selector="cancelTapped:" destination="PID-XP-1tP" id="IKR-hx-1b2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="TSx-Dg-pWC" id="jjR-o0-biT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ZH-rB-q2t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="839" y="-551"/>
+            <point key="canvasLocation" x="1765.6488549618321" y="-551.4084507042254"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Af9-J1-Yhk">
@@ -194,6 +202,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Va-PL-gkv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1539" y="113"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="9o9-3X-M4B">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ygf-jW-0CY" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="coH-fN-55t">
+                        <rect key="frame" x="0.0" y="16" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="PID-XP-1tP" kind="relationship" relationship="rootViewController" id="0Dl-uf-s6L"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y7l-bH-Lr4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="838.93129770992368" y="-551.4084507042254"/>
         </scene>
     </scenes>
     <resources>

@@ -44,7 +44,7 @@ class FamilyActivityScoreCollectionViewCell: UICollectionViewCell {
         // Creates legend popup
         let alert = UIAlertController(
             title: "Wellness Score Legend",
-            message: "🟢Green = High\n🔵Blue = Good\n🟡Yellow = Medium\nRed = Low",
+            message: "🟢Green = High\n🔵Blue = Good\n🟡Yellow = Medium\n🔴Red = Low",
             preferredStyle: .actionSheet
         )
 

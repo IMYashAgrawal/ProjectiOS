@@ -19,30 +19,13 @@ class MemberWellnessViewController: UIViewController {
         let name = profile.nickName ?? profile.firstName
         title = "\(name)’s Wellness"
         
-        addBackButton() //added by kushaad, to make the view dismiss
-        
         setupCollectionView()
         loadWellnessData()
     }
 
-    private func addBackButton() {
-        //make the button using code
-        let backButton = UIBarButtonItem(
-                image: UIImage(systemName: "chevron.left"),
-                style: .plain,
-                target: self,
-                action: #selector(backButtonTapped)
-            )
-        backButton.tintColor = .label
-        self.navigationItem.leftBarButtonItem = backButton
-
+    @IBAction func cancelTapped(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
     }
-    
-    @objc func backButtonTapped() {
-        // 4. Dismiss the current view controller
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     
     private func loadWellnessData() {
         guard let profile else { return }
